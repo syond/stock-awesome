@@ -1,6 +1,10 @@
 import { Router } from "express";
 
-import { requestTicker, requestOrderBook, requestTrades } from "./services/apiMercadoBitcoin";
+import { 
+    requestTicker, 
+    requestOrderBook, 
+    requestTrades, 
+    requestDaySummary } from "./services/apiMercadoBitcoin";
 import request from "request";
 import cheerio from 'cheerio';
 import { parse } from "path";
@@ -22,7 +26,7 @@ routes.get("/", (req, res) => {
 
 routes.get("/crypto/:coin/ticker", async (req, res) => {
     const { coin } = req.params;
-    
+
     try {
         const response = await requestTicker(coin);
 
@@ -34,7 +38,7 @@ routes.get("/crypto/:coin/ticker", async (req, res) => {
 
 routes.get("/crypto/:coin/orderbook", async (req, res) => {
     const { coin } = req.params;
-    
+
     try {
         const response = await requestOrderBook(coin);
 
@@ -46,7 +50,7 @@ routes.get("/crypto/:coin/orderbook", async (req, res) => {
 
 routes.get("/crypto/:coin/trades", async (req, res) => {
     const { coin } = req.params;
-    
+
     try {
         const response = await requestTrades(coin);
 
@@ -62,7 +66,7 @@ routes.get("/crypto/:coin/trades/:since", async (req, res) => {
     const paramsObj = {
         since: parseInt(since)
     }
-    
+
     try {
         const response = await requestTrades(coin, paramsObj);
 
@@ -78,7 +82,7 @@ routes.get("/crypto/:coin/trades/:from", async (req, res) => {
     const paramsObj = {
         from: parseInt(from)
     }
-    
+
     try {
         const response = await requestTrades(coin, paramsObj);
 
@@ -95,9 +99,27 @@ routes.get("/crypto/:coin/trades/:from/:to", async (req, res) => {
         from: parseInt(from),
         to: parseInt(to),
     }
-    
+
     try {
         const response = await requestTrades(coin, paramsObj);
+
+        res.json(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+routes.get("/crypto/:coin/day-summary/:year/:month/:day", async (req, res) => {
+    const { coin, year, month, day } = req.params;
+
+    const paramsObj = {
+        year: parseInt(year),
+        month: parseInt(month),
+        day: parseInt(day),
+    }
+
+    try {
+        const response = await requestDaySummary(coin, paramsObj);
 
         res.json(response.data);
     } catch (error) {

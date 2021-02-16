@@ -7,6 +7,12 @@ interface IRequestTrades {
     to?: Number,
 }
 
+interface IRequestDaySummary {
+    year?: Number,
+    month?: Number,
+    day?: Number,
+}
+
 
 const apiInstance = axios.create({
     baseURL: 'https://www.mercadobitcoin.net/api/',
@@ -27,18 +33,15 @@ const requestOrderBook = async (coin: String) => {
 }
 
 const requestTrades = async (coin: String, params?: IRequestTrades) => {
-    // if(params?.since){
-    //     params.from = 0;
-    //     params.to = 0;
-    // }
-
-    // https://www.mercadobitcoin.net/api/BTC/trades/?since=5700
-    // https://www.mercadobitcoin.net/api/BTC/trades/1501871369/
-    // https://www.mercadobitcoin.net/api/BTC/trades/1501871369/1501891200/
-
     const response = await apiInstance.get(`${coin}/trades${params?.since ? "/" + params?.since : ""}${params?.from ? "/" + params.from : ""}${params?.to ? "/" + params.to : ""}`);
 
     return response;
 }
 
-export { requestTicker, requestOrderBook, requestTrades }
+const requestDaySummary = async (coin: String, params?: IRequestDaySummary) => {
+    const response = await apiInstance.get(`${coin}/day-summary${params?.year ? "/" + params.year : ""}${params?.month ? "/" + params.month : ""}${params?.day ? "/" + params.day : ""}`);
+
+    return response;
+}
+
+export { requestTicker, requestOrderBook, requestTrades, requestDaySummary }
