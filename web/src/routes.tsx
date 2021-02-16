@@ -1,11 +1,15 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import App from "./App";
+import PageNotFound from "./pages/PageNotFound";
 
 const Routes = () => {
     return (
         <BrowserRouter>
-            <Route path="/" exact={true} component={App} />
+            <Switch>
+                <Route path="/" exact={true} component={App} />
+                <Route path="*" component={PageNotFound} />
+            </Switch>
         </BrowserRouter>
     );
 }
