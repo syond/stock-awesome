@@ -12,4 +12,10 @@ const requestTicker = async (coin: String, params?: Object) => {
     return response;
 }
 
-export { requestTicker }
+const requestOrderBook = async (coin: String) => {
+    const response = await apiInstance.get(`${coin}/orderbook`);
+
+    return response;
+}
+
+export { requestTicker, requestOrderBook }
