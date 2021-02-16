@@ -1,8 +1,9 @@
 import { Router } from "express";
 
-import { requestTicker, requestOrderBook } from "./services/apiMercadoBitcoin";
+import { requestTicker, requestOrderBook, requestTrades } from "./services/apiMercadoBitcoin";
 import request from "request";
 import cheerio from 'cheerio';
+import { parse } from "path";
 
 const routes = Router();
 
@@ -19,7 +20,7 @@ routes.get("/", (req, res) => {
     res.json({ message: "Hello world" });
 });
 
-routes.get("/:coin/ticker", async (req, res) => {
+routes.get("/crypto/:coin/ticker", async (req, res) => {
     const { coin } = req.params;
     
     try {
@@ -31,11 +32,72 @@ routes.get("/:coin/ticker", async (req, res) => {
     }
 });
 
-routes.get("/:coin/orderbook", async (req, res) => {
+routes.get("/crypto/:coin/orderbook", async (req, res) => {
     const { coin } = req.params;
     
     try {
         const response = await requestOrderBook(coin);
+
+        res.json(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+routes.get("/crypto/:coin/trades", async (req, res) => {
+    const { coin } = req.params;
+    
+    try {
+        const response = await requestTrades(coin);
+
+        res.json(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+routes.get("/crypto/:coin/trades/:since", async (req, res) => {
+    const { coin, since } = req.params;
+
+    const paramsObj = {
+        since: parseInt(since)
+    }
+    
+    try {
+        const response = await requestTrades(coin, paramsObj);
+
+        res.json(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+routes.get("/crypto/:coin/trades/:from", async (req, res) => {
+    const { coin, from } = req.params;
+
+    const paramsObj = {
+        from: parseInt(from)
+    }
+    
+    try {
+        const response = await requestTrades(coin, paramsObj);
+
+        res.json(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+routes.get("/crypto/:coin/trades/:from/:to", async (req, res) => {
+    const { coin, from, to } = req.params;
+
+    const paramsObj = {
+        from: parseInt(from),
+        to: parseInt(to),
+    }
+    
+    try {
+        const response = await requestTrades(coin, paramsObj);
 
         res.json(response.data);
     } catch (error) {
