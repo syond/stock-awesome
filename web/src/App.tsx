@@ -1,9 +1,9 @@
 import "./styles/globalstyles.css";
 
-import Layout from "./components/Layout";
+import Home from "./pages/Home";
 
 const App = () => {
-  return <Layout />
+  return <Home />
 }
 
 export default App;

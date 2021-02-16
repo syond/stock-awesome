@@ -12,8 +12,10 @@
     "author": "Syond",
     "license": "ISC",
     "dependencies": {
+        "@types/cors": "^2.8.10",
         "axios": "^0.21.1",
         "cheerio": "^1.0.0-rc.5",
+        "cors": "^2.8.5",
         "express": "^4.17.1",
         "request": "^2.88.2"
     },
