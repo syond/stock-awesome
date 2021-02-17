@@ -1,0 +1,14 @@
+#home-container>h1 {
+    color: white;
+}
+
+.card-grid-template {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card-grid-template>li {
+    list-style: none;
+}

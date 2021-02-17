@@ -1,10 +1,12 @@
 import React from "react";
 
+import "./styles.css";
+
 const Main: React.FC = ({ children }) => {
     return (
-        <div id="main-container">
+        <main>
             {children}
-        </div>
+        </main>
     );
 }
 
